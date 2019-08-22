@@ -19,6 +19,8 @@
 // cog    
 #include <stdint.h>
 #include <stdio.h>
+#include <sys/time.h>
+
 #include "render.h"
 #include "telemetry.h"
 #include "groundstatus.h"
