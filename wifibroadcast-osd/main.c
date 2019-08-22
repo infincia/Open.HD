@@ -55,6 +55,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "smartport.h"
 #endif
 
+#if LIFEPO4WEREDPI == true
+#include "lifepo4weredpi.h"
+#endif
+
 long long current_timestamp() {
     struct timeval te;
     gettimeofday(&te, NULL); // get current time
@@ -189,6 +193,10 @@ int main(int argc, char *argv[]) {
 	    if (delta > 1000) {
 		prev_cpu_time = current_timestamp();
 //		fprintf(stderr,"delta > 10000\n");
+
+#if LIFEPO4WEREDPI == true
+        lifepo4weredpi_data(&gcsd);
+#endif
 
 		fp2 = fopen("/sys/class/thermal/thermal_zone0/temp","r");
 		fscanf(fp2,"%d",&temp_gnd);
