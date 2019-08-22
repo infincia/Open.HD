@@ -354,6 +354,26 @@ void render(telemetry_data_t *td, groundstatus_data_t *gcsd, uint8_t cpuload_gnd
 #endif
 
 
+#if GROUND_POWER_IN == true
+    draw_GROUND_POWER_IN(gcsd->vin, gcsd->vbat, GROUND_POWER_IN_POS_X, GROUND_POWER_IN_POS_Y, GROUND_POWER_IN_SCALE * GLOBAL_SCALE);
+#endif
+
+#if GROUND_POWER_OUT == true
+    draw_GROUND_POWER_OUT(gcsd->vout, gcsd->iout, GROUND_POWER_OUT_POS_X, GROUND_POWER_OUT_POS_Y, GROUND_POWER_OUT_SCALE * GLOBAL_SCALE);
+#endif
+
+#if GROUND_POWER_EXTERNAL_BATT_GAUGE == true
+    int ground_external_batt_percent = ((gcsd->vin/GROUND_POWER_EXTERNAL_BATT_CELLS)-GROUND_POWER_EXTERNAL_BATT_CELL_MIN)/(GROUND_POWER_EXTERNAL_BATT_CELL_MAX-GROUND_POWER_EXTERNAL_BATT_CELL_MIN)*100;
+    draw_batt_gauge(ground_external_batt_percent, GROUND_POWER_EXTERNAL_BATT_GAUGE_POS_X, GROUND_POWER_EXTERNAL_BATT_GAUGE_POS_Y, GROUND_POWER_EXTERNAL_BATT_GAUGE_SCALE * GLOBAL_SCALE, true, "ext");
+    if (ground_external_batt_percent <= 20) draw_message(0,"GCS external battery dead","Charge external battery immediately"," ",WARNING_POS_X, WARNING_POS_Y, GLOBAL_SCALE);
+#endif
+
+#if GROUND_POWER_INTERNAL_BATT_GAUGE == true
+    int ground_internal_batt_percent = ((gcsd->vbat/GROUND_POWER_INTERNAL_BATT_CELLS)-GROUND_POWER_INTERNAL_BATT_CELL_MIN)/(GROUND_POWER_INTERNAL_BATT_CELL_MAX-GROUND_POWER_INTERNAL_BATT_CELL_MIN)*100;
+    draw_batt_gauge(ground_internal_batt_percent, GROUND_POWER_INTERNAL_BATT_GAUGE_POS_X, GROUND_POWER_INTERNAL_BATT_GAUGE_POS_Y, GROUND_POWER_INTERNAL_BATT_GAUGE_SCALE * GLOBAL_SCALE, true, "gnd");
+    if (ground_internal_batt_percent <= 20) draw_message(0,"GCS internal battery dead","Plug in external power immediately"," ",WARNING_POS_X, WARNING_POS_Y, GLOBAL_SCALE);
+#endif
+
 #ifdef BATT_STATUS
     draw_batt_status(td->voltage, td->ampere, BATT_STATUS_POS_X, BATT_STATUS_POS_Y, BATT_STATUS_SCALE * GLOBAL_SCALE);
 #endif
@@ -1261,6 +1281,48 @@ void draw_compass(float heading, float home_heading, float pos_x, float pos_y, f
 }
 
 
+
+
+void draw_GROUND_POWER_IN(float vin, float vbat, float pos_x, float pos_y, float scale){
+    float text_scale = getWidth(2) * scale;
+    VGfloat height_text = TextHeight(myfont, text_scale)+getHeight(0.3)*scale;
+
+    sprintf(buffer, "%.2f", vbat);
+    TextEnd(getWidth(pos_x), getHeight(pos_y), buffer, myfont, text_scale);
+    #if GROUND_POWER_VIN_IS_EXTERNAL_BATTERY == true
+    char vbat_type[] = " Vbat(I)";
+    #else
+    char vbat_type[] = " Vbat";
+    #endif
+    Text(getWidth(pos_x), getHeight(pos_y), vbat_type, myfont, text_scale*0.6);
+
+#if GROUND_POWER_IN_SHOW_VIN == true
+    sprintf(buffer, "%.2f", vin);
+    TextEnd(getWidth(pos_x), getHeight(pos_y)+height_text, buffer, myfont, text_scale);
+    #if GROUND_POWER_VIN_IS_EXTERNAL_BATTERY == true
+    char vin_type[] = " Vbat(E)";
+    #else
+    char vin_type[] = " Vin";
+    #endif
+    Text(getWidth(pos_x), getHeight(pos_y)+height_text, vin_type, myfont, text_scale*0.6);
+#endif
+}
+
+
+void draw_GROUND_POWER_OUT(float vout, float iout, float pos_x, float pos_y, float scale){
+    float text_scale = getWidth(2) * scale;
+    VGfloat height_text = TextHeight(myfont, text_scale)+getHeight(0.3)*scale;
+
+    sprintf(buffer, "%.2f", iout);
+    TextEnd(getWidth(pos_x), getHeight(pos_y), buffer, myfont, text_scale);
+    Text(getWidth(pos_x), getHeight(pos_y), " Ag", myfont, text_scale*0.6);
+
+#if GROUND_POWER_OUT_SHOW_VOLTS
+    sprintf(buffer, "%.2f", vout);
+    TextEnd(getWidth(pos_x), getHeight(pos_y)+height_text, buffer, myfont, text_scale);
+    Text(getWidth(pos_x), getHeight(pos_y)+height_text, " Vg", myfont, text_scale*0.6);
+#endif
+}
 
 void draw_batt_status(float voltage, float current, float pos_x, float pos_y, float scale){
     Stroke(OUTLINECOLOR);

@@ -51,6 +51,9 @@ void draw_message(int severity, char line1[30], char line2[30], char line3[30], 
 void draw_batt_gauge(int remaining, float pos_x, float pos_y, float scale, bool use_identifier, char* identifier);
 void draw_batt_status(float voltage, float current, float pos_x, float pos_y, float scale);
 
+void draw_GROUND_POWER_IN(float vin, float vbat, float pos_x, float pos_y, float scale);
+void draw_GROUND_POWER_OUT(float vout, float iout, float pos_x, float pos_y, float scale);
+
 // totals
 void draw_TOTAL_AMPS(float current, float pos_x, float pos_y, float scale);
 void draw_TOTAL_DIST(int gpsspeed, float pos_x, float pos_y, float scale);
