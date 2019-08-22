@@ -1885,6 +1885,8 @@ void draw_batt_gauge(int remaining, float pos_x, float pos_y, float scale){
 
     Fill(0,0,0,0.5);
     Rect(getWidth(pos_x) + stroke_x + remaining / 100.0f * cell_width, getHeight(pos_y) + stroke_y, cell_width - stroke_x*2 - remaining / 100.0f * cell_width, cell_height - stroke_y*2);
+    Fill(COLOR);
+    Stroke(OUTLINECOLOR);
 }
 
 
