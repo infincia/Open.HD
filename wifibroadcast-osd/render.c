@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include "render.h"
 #include "telemetry.h"
+#include "groundstatus.h"
 #include "osdconfig.h"
 
 #define TO_FEET 3.28084
@@ -132,7 +133,7 @@ if (td->speed>0)
     total_amps = total_amps + td->ampere*(float)time_diff/3600;
 }
 
-void render(telemetry_data_t *td, uint8_t cpuload_gnd, uint8_t temp_gnd, uint8_t undervolt, int osdfps) {
+void render(telemetry_data_t *td, groundstatus_data_t *gcsd, uint8_t cpuload_gnd, uint8_t temp_gnd, uint8_t undervolt, int osdfps) {
 
     // call loopUpdate to update stuff that should be updated even when particular elements are off (like total curent);
     loopUpdate(td);

@@ -178,7 +178,7 @@ int main(int argc, char *argv[]) {
 //		fprintf(stderr," rendering! ");
 		prev_time = current_timestamp();
 		fpscount++;
-		render(&td, cpuload_gnd, temp_gnd/1000, undervolt_gnd,fps);
+		render(&td, &gcsd, cpuload_gnd, temp_gnd/1000, undervolt_gnd, fps);
 		long long took = current_timestamp() - prev_time;
 //		fprintf(stderr,"Render took %lldms\n", took);
 		do_render = 0;
