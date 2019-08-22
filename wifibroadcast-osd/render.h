@@ -47,7 +47,7 @@ void draw_message(int severity, char line1[30], char line2[30], char line3[30], 
 
 //new stuff from fritz walter https://www.youtube.com/watch?v=EQ01b3aJ-rk
 //this will only indicate how much % are left. Mavlink specific, but could be used with others as well.
-void draw_batt_gauge(int remaining, float pos_x, float pos_y, float scale);
+void draw_batt_gauge(int remaining, float pos_x, float pos_y, float scale, bool use_identifier, char* identifier);
 void draw_batt_status(float voltage, float current, float pos_x, float pos_y, float scale);
 
 // totals

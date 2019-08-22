@@ -426,7 +426,7 @@ void render(telemetry_data_t *td, uint8_t cpuload_gnd, uint8_t temp_gnd, uint8_t
 
 
 #ifdef BATT_GAUGE
-    draw_batt_gauge(((td->voltage/CELLS)-CELL_MIN)/(CELL_MAX-CELL_MIN)*100, BATT_GAUGE_POS_X, BATT_GAUGE_POS_Y, BATT_GAUGE_SCALE * GLOBAL_SCALE);
+    draw_batt_gauge(((td->voltage/CELLS)-CELL_MIN)/(CELL_MAX-CELL_MIN)*100, BATT_GAUGE_POS_X, BATT_GAUGE_POS_Y, BATT_GAUGE_SCALE * GLOBAL_SCALE, true, "air");
 #endif
 
 
@@ -1850,7 +1850,7 @@ void draw_sat(int sats, int fixtype, int hdop, float pos_x, float pos_y, float s
 
 
 
-void draw_batt_gauge(int remaining, float pos_x, float pos_y, float scale){
+void draw_batt_gauge(int remaining, float pos_x, float pos_y, float scale, bool use_identifier, char* identifier){
 
     Stroke(OUTLINECOLOR);
     Fill(COLOR);
@@ -1887,6 +1887,12 @@ void draw_batt_gauge(int remaining, float pos_x, float pos_y, float scale){
     Rect(getWidth(pos_x) + stroke_x + remaining / 100.0f * cell_width, getHeight(pos_y) + stroke_y, cell_width - stroke_x*2 - remaining / 100.0f * cell_width, cell_height - stroke_y*2);
     Fill(COLOR);
     Stroke(OUTLINECOLOR);
+
+    if (use_identifier) {
+        float text_scale = getWidth(2) * scale;
+        VGfloat height_text = TextHeight(myfont, text_scale)+getHeight(0.3)*scale;
+        Text(getWidth(pos_x)+cell_width+8, getHeight(pos_y), identifier, myfont, text_scale*0.6);
+    }
 }
 
 
