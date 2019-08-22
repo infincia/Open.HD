@@ -43,6 +43,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "render.h"
 #include "osdconfig.h"
 #include "telemetry.h"
+#include "groundstatus.h"
+
 #ifdef FRSKY
 #include "frsky.h"
 #elif defined(LTM)
@@ -113,6 +115,9 @@ int main(int argc, char *argv[]) {
 //    fprintf(stderr,"OSD: Initializing render engine ...\n");
     render_init();
 //    fprintf(stderr,"OSD: Render init done\n");
+
+    groundstatus_data_t gcsd;
+    groundstatus_init(&gcsd);
 
     long long prev_time = current_timestamp();
     long long prev_time2 = current_timestamp();
