@@ -59,6 +59,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "lifepo4weredpi.h"
 #endif
 
+#if INA2XX == true
+#include "ina2xx.h"
+#endif
+
 long long current_timestamp() {
     struct timeval te;
     gettimeofday(&te, NULL); // get current time
@@ -122,6 +126,10 @@ int main(int argc, char *argv[]) {
 
     groundstatus_data_t gcsd;
     groundstatus_init(&gcsd);
+
+    #if INA2XX == true
+        ina2xx_init();
+    #endif
 
     long long prev_time = current_timestamp();
     long long prev_time2 = current_timestamp();
@@ -196,6 +204,10 @@ int main(int argc, char *argv[]) {
 
 #if LIFEPO4WEREDPI == true
         lifepo4weredpi_data(&gcsd);
+#endif
+
+#if INA2XX == true
+        ina2xx_data(&gcsd);
 #endif
 
 		fp2 = fopen("/sys/class/thermal/thermal_zone0/temp","r");
