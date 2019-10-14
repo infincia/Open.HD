@@ -172,10 +172,8 @@ def NotifyGroundWithACK(message):
     return False
 
 def MoveFile():
-    os.system('mount -o remount,rw /boot')
     os.system('cp /tmp/infile.txt /boot/openhd-settings-1.txt')
     os.system('sync')
-    os.system('mount -o remount,ro /boot')
     print("copy file process completed.")
 
 def GetFreqFromConfig():

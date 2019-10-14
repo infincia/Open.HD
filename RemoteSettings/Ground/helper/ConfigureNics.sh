@@ -59,8 +59,6 @@ function collect_errorlog {
         echo "ERROR: USB disconnect detected - potential power supply problems!"
     fi
 
-    nice mount -o remount,rw /boot
-
     # check if over-temp or under-voltage occured
     if vcgencmd get_throttled | nice grep -q -v "0x0"; then
 		TEMP=`cat /sys/class/thermal/thermal_zone0/temp`
@@ -175,7 +173,6 @@ function collect_errorlog {
     nice cat /boot/apconfig.txt | egrep -v "^(#|$)" >> /boot/errorlog.txt
 
     sync
-    nice mount -o remount,ro /boot
 }
 
 

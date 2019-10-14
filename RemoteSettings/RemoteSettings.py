@@ -57,7 +57,6 @@ if (input_state0 == True) and (input_state1 == True):
 
 
 def replace_OSD_config(LookFor, NewLine):
-    os.system('mount -o remount,rw /boot')
 #example: #define COPTER true
 #use: replace_OSD_config(COPTER, COPTER true)
     ret = -1
@@ -68,7 +67,6 @@ def replace_OSD_config(LookFor, NewLine):
             ret = 1
         sys.stdout.write(line)
 
-    os.system('mount -o remount,ro /boot')
     return ret
 
 def replace_TxPower_config(Param, Value):
@@ -83,7 +81,6 @@ def replace_TxPower_config(Param, Value):
 
 
 def replace_Joystick_config(LookFor, NewLine):
-    os.system('mount -o remount,rw /boot')
 #example: #define UPDATE_NTH_TIME 10
 #use: replace_OSD_config(UPDATE_NTH_TIME, UPDATE_NTH_TIME 3)
     ret = -1
@@ -94,14 +91,12 @@ def replace_Joystick_config(LookFor, NewLine):
             ret = 1
         sys.stdout.write(line)
 
-    os.system('mount -o remount,ro /boot')
     return ret
 
 
 def replace_WFBC_config(file_path, LookFor, NewLine):
     print("LookFor: " + LookFor + " NewLine: " + NewLine )
     #Create temp file
-    os.system('mount -o remount,rw /boot')
     NewLine += "\n"
     fh, abs_path = mkstemp()
     with fdopen(fh,'w') as new_file:
@@ -115,7 +110,6 @@ def replace_WFBC_config(file_path, LookFor, NewLine):
     remove(file_path)
     #Move new file
     move(abs_path, file_path)
-    os.system('mount -o remount,ro /boot')
 
 def read_osd_settings(response_header):
     d = {}

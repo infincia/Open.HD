@@ -162,14 +162,12 @@ function tx_function {
 			echo "  | Video Bitrate will be reduced to 1000kbit to reduce current consumption!                        |"
 			echo "  ---------------------------------------------------------------------------------------------------"
 			echo
-			mount -o remount,rw /boot
 			echo "  ---------------------------------------------------------------------------------------------------" >> /boot/UNDERVOLTAGE-ERROR!!!.txt
 			echo "  | ERROR: Under-Voltage detected on the AIRPi. Your Pi is not supplied with stable 5 Volts.        |" >> /boot/UNDERVOLTAGE-ERROR!!!.txt
 			echo "  | Either your power-supply or wiring is not sufficent, check the wiring instructions in the Wiki. |" >> /boot/UNDERVOLTAGE-ERROR!!!.txt
 			echo "  | Video Bitrate will be reduced to 1000kbit to reduce current consumption!                        |" >> /boot/UNDERVOLTAGE-ERROR!!!.txt
 			echo "  | When you have fixed wiring/power-supply, delete this file and make sure it doesn't re-appear!   |" >> /boot/UNDERVOLTAGE-ERROR!!!.txt
 			echo "  ---------------------------------------------------------------------------------------------------" >> /boot/UNDERVOLTAGE-ERROR!!!.txt
-			mount -o remount,ro /boot
 			UNDERVOLT=1
 			echo "1" > /tmp/undervolt
 		else # it was either over-temp or both undervolt and over-temp, we set undervolt to 0 anyway, since overtemp can be seen at the temp display on the rx
@@ -215,14 +213,12 @@ function tx_function {
 				echo "  | Video Bitrate will be reduced to 1000kbit to reduce current consumption!                        |"
 				echo "  ---------------------------------------------------------------------------------------------------"
 				echo
-				mount -o remount,rw /boot
 				echo "  ---------------------------------------------------------------------------------------------------" >> /boot/UNDERVOLTAGE-ERROR!!!.txt
 				echo "  | ERROR: Under-Voltage detected on the AIRPi. Your Pi is not supplied with stable 5 Volts.        |" >> /boot/UNDERVOLTAGE-ERROR!!!.txt
 				echo "  | Either your power-supply or wiring is not sufficent, check the wiring instructions in the Wiki. |" >> /boot/UNDERVOLTAGE-ERROR!!!.txt
 				echo "  | Video Bitrate will be reduced to 1000kbit to reduce current consumption!                        |" >> /boot/UNDERVOLTAGE-ERROR!!!.txt
 				echo "  | When you have fixed wiring/power-supply, delete this file and make sure it doesn't re-appear!   |" >> /boot/UNDERVOLTAGE-ERROR!!!.txt
 				echo "  ---------------------------------------------------------------------------------------------------" >> /boot/UNDERVOLTAGE-ERROR!!!.txt
-				mount -o remount,ro /boot
 				UNDERVOLT=1
 				echo "1" > /tmp/undervolt
 				BITRATE=$((1000*1000))

@@ -331,7 +331,6 @@ function collect_debug {
 
     DEBUGPATH=$1
     if [ "$DEBUGPATH" == "/boot" ]; then # if debugpath is boot partition, make it writeable first and move old logs
-		nice mount -o remount,rw /boot
 		mv /boot/debug.txt /boot/debug-old.txt > /dev/null 2>&1
     fi
 
@@ -414,7 +413,6 @@ function collect_debug {
 
     if [ "$DEBUGPATH" == "/boot" ]; then # if debugpath is boot partition, sync and remount ro
 		sync
-		nice mount -o remount,ro /boot
     fi
 }
 
@@ -430,8 +428,6 @@ function collect_errorlog {
     if nice dmesg | nice grep -q disconnect; then
         echo "ERROR: USB disconnect detected - potential power supply problems!"
     fi
-
-    nice mount -o remount,rw /boot
 
     # check if over-temp or under-voltage occured
     if vcgencmd get_throttled | nice grep -q -v "0x0"; then
@@ -547,7 +543,6 @@ function collect_errorlog {
     nice cat /boot/apconfig.txt | egrep -v "^(#|$)" >> /boot/errorlog.txt
 
     sync
-    nice mount -o remount,ro /boot
 }
 
 function wbclogger_function {
